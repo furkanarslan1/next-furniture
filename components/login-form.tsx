@@ -54,7 +54,8 @@ export function LoginForm({
       id: loadingToast,
     });
 
-    router.refresh(); // Middleware'in güncel session'ı tanıması için / Force sync session
+    router.push("/admin");
+    router.refresh();
   }
 
   return (

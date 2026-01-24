@@ -17,9 +17,9 @@ export async function proxy(request: NextRequest) {
           return request.cookies.getAll();
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) => {
-            request.cookies.set(name, value);
-          });
+          // cookiesToSet.forEach(({ name, value, options }) => {
+          //   request.cookies.set(name, value);
+          // });
           cookiesToSet.forEach(({ name, value, options }) => {
             response.cookies.set(name, value, options);
           });
@@ -44,18 +44,17 @@ export async function proxy(request: NextRequest) {
     // 2. Check if user has admin role / Admin yetkisi var mı?
     // Note: This requires 'role' column in your profiles table
     // Not: Bu, profiles tablonuzda 'role' sütunu olmasını gerektirir
-    const { data: profile } = await supabase
+    const { data: admin } = await supabase
       .from("admin_users")
-      .select("role")
+      .select("id")
       .eq("id", user.id)
       .single();
 
-    if (profile?.role !== "admin") {
-      // If not admin, send to homepage
-      // Admin değilse ana sayfaya gönder
+    if (!admin) {
       return NextResponse.redirect(new URL("/", request.url));
     }
   }
+
   return response;
 }
 

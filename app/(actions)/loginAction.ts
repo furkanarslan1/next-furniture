@@ -31,7 +31,7 @@ export async function loginAction(values: LoginValues) {
 
   const { data: adminData, error: adminError } = await supabase
     .from("admin_users")
-    .select("role")
+    .select("id")
     .eq("id", user.id)
     .single();
 
@@ -45,8 +45,4 @@ export async function loginAction(values: LoginValues) {
   // 3. Cache Temizleme ve Yönlendirme / Revalidate and Sync
   // Kullanıcı giriş yaptığı için layout ve header verilerinin yenilenmesini sağlarız.
   revalidatePath("/", "layout");
-
-  // if admin
-
-  redirect("/admin");
 }
