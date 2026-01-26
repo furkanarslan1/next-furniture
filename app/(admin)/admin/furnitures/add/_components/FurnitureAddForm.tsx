@@ -6,11 +6,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useState } from "react";
-import { Form, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
+import StepBasicInfo from "./steps/StepBasicInfo";
+import { Form } from "@/components/ui/form";
 
-type FurnitureFormInput = z.input<typeof ProductSchema>;
+export type FurnitureFormInput = z.input<typeof ProductSchema>;
 type FurnitureValues = z.infer<typeof ProductSchema>;
 
 export default function FurnitureAddForm() {
@@ -107,7 +109,7 @@ export default function FurnitureAddForm() {
 
       <Form {...form}>
         <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
-          {/* {step === 1 && <StepBasicInfo form={form} />} */}
+          {step === 1 && <StepBasicInfo form={form} />}
 
           <div className="flex justify-between pt-6 border-t ">
             <Button
