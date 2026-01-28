@@ -20,12 +20,9 @@ import {
 import { CATEGORIES, CATEGORIES_ARRAY } from "@/lib/constants/categories";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
+import { StepProps } from "@/types/StepPropsType";
 
-interface StepBasicProps {
-  form: UseFormReturn<FurnitureFormInput>;
-}
-
-export default function StepBasicInfo({ form }: StepBasicProps) {
+export default function StepBasicInfo({ form }: StepProps) {
   const category = form.watch("categorySlug");
   const selectedCategory = CATEGORIES_ARRAY.find(
     (cat) => cat.slug === category,

@@ -11,9 +11,10 @@ import { toast } from "sonner";
 import z from "zod";
 import StepBasicInfo from "./steps/StepBasicInfo";
 import { Form } from "@/components/ui/form";
+import StepAttributes from "./steps/StepAttributes/StepAttributes";
 
 export type FurnitureFormInput = z.input<typeof ProductSchema>;
-type FurnitureValues = z.infer<typeof ProductSchema>;
+export type FurnitureValues = z.infer<typeof ProductSchema>;
 
 export default function FurnitureAddForm() {
   const router = useRouter();
@@ -110,6 +111,7 @@ export default function FurnitureAddForm() {
       <Form {...form}>
         <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
           {step === 1 && <StepBasicInfo form={form} />}
+          {step === 2 && <StepAttributes form={form} />}
 
           <div className="flex justify-between pt-6 border-t ">
             <Button

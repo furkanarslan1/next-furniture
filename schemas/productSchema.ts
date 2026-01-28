@@ -11,8 +11,8 @@ const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
 // --- 1. Product Attribute Schema ---
 export const ProductAttributeSchema = z.object({
-  key: z.string().min(1, "Attribute name cannot be empty"), // e.g. "material", "color"
-  value: z.union([z.string(), z.number(), z.array(z.string())]),
+  key: z.string().min(1, "Attribute name is required"),
+  value: z.string().min(1, "value is required"),
 });
 
 // --- 2. Product Image Schema ---
