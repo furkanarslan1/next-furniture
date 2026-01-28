@@ -15,6 +15,7 @@ import StepAttributes from "./steps/StepAttributes/StepAttributes";
 import StepImages from "./steps/StepImages";
 import { ImageFile } from "@/types/ImageFileType";
 import { createClient } from "@/lib/supabase/client";
+import { addProductAction } from "@/app/(actions)/product/addProductAction";
 
 export type FurnitureFormInput = z.input<typeof ProductSchema>;
 export type FurnitureValues = z.infer<typeof ProductSchema>;
@@ -123,7 +124,15 @@ export default function FurnitureAddForm() {
         ...uploadedUrls.filter((url) => url !== finalCoverImageUrl),
       ].filter(Boolean); // Boş olanları (null/undefined) temizle // Remove empty (null/undefined) entries
 
-      const result = await addProductAction(cleanValues, finalImageUrls);
+      const dataForDb = {
+        ...cleanValues,
+        images: finalImageUrls.map((url) => ({
+          url: url,
+          alt: cleanValues.title,
+        })),
+      };
+
+      const result = await addProductAction(dataForDb);
 
       if (!result.success) {
         throw new Error(result.error);
@@ -174,7 +183,7 @@ export default function FurnitureAddForm() {
   };
 
   return (
-    <div className="space-y-8 max-w-6xl mx-auto p-6">
+    <div className="space-y-8 max-w-6xl mx-auto p-6 mb-12">
       <div className="flex items-center gap-2 mb-4">
         {[1, 2, 3].map((s) => (
           <div
@@ -209,10 +218,12 @@ export default function FurnitureAddForm() {
               Previous
             </Button>
             <Button type="button" onClick={handleNext} disabled={isSubmitting}>
-              {isSubmitting && (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              )}
-              {step === 3 ? "Complete and Publish" : "Next Step"}
+              <div className="flex items-center justify-center">
+                {isSubmitting && (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                )}
+                <span>{step === 3 ? "Complete and Publish" : "Next Step"}</span>
+              </div>
             </Button>
           </div>
         </form>

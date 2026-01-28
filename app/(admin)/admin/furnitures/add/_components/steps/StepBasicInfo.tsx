@@ -122,7 +122,7 @@ export default function StepBasicInfo({ form }: StepProps) {
               disabled={!category || types.length === 0}
             >
               <FormControl>
-                <SelectTrigger>
+                <SelectTrigger id="category-select-trigger">
                   <SelectValue
                     placeholder={
                       !category
@@ -200,6 +200,7 @@ export default function StepBasicInfo({ form }: StepProps) {
             </div>
             <FormControl>
               <Switch
+                id="product-active-switch"
                 checked={field.value}
                 onCheckedChange={field.onChange}
                 className=""

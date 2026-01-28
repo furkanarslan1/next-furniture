@@ -43,12 +43,12 @@ const items = [
   },
   {
     title: "Furnitures",
-    url: "/admin/furniture",
+    url: "/admin/furnitures",
     icon: Armchair,
   },
   {
     title: "Add Furniture",
-    url: "/admin/furniture/add",
+    url: "/admin/furnitures/add",
     icon: PlusCircle,
   },
   //   {
@@ -114,7 +114,7 @@ export default function AdminSideBar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <DropdownMenu>
-              <DropdownMenuTrigger asChild>
+              <DropdownMenuTrigger asChild id="admin-sidebar-trigger">
                 <SidebarMenuButton>
                   <div className="flex items-center gap-2">
                     <User2 />
@@ -123,7 +123,7 @@ export default function AdminSideBar() {
                   </div>
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
+              <DropdownMenuContent align="end" id="admin-sidebar-content">
                 <DropdownMenuItem>Account</DropdownMenuItem>
                 <DropdownMenuItem>Settings</DropdownMenuItem>
                 <DropdownMenuItem>Sign out</DropdownMenuItem>

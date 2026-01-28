@@ -19,7 +19,7 @@ export const ProductAttributeSchema = z.object({
 export const ProductImageSchema = z.object({
   url: z.union([
     // Existing images coming from the database
-    z.string().url("A valid image URL is required"),
+    z.string().min(1),
 
     // Newly uploaded files from the client
     z
@@ -41,7 +41,7 @@ export const ProductSchema = z.object({
   title: z.string().min(3, "Product title must be at least 3 characters long"),
 
   // title → will be generated via slugify, but still validated here
-  slug: z.string().min(3, "Slug is required"),
+  slug: z.string().optional().or(z.literal("")),
 
   description: z.string().min(10, "Description is too short"),
 
