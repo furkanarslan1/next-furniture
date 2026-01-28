@@ -8,10 +8,13 @@ import { useRouter, useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import z from "zod";
+import z, { file } from "zod";
 import StepBasicInfo from "./steps/StepBasicInfo";
 import { Form } from "@/components/ui/form";
 import StepAttributes from "./steps/StepAttributes/StepAttributes";
+import StepImages from "./steps/StepImages";
+import { ImageFile } from "@/types/ImageFileType";
+import { createClient } from "@/lib/supabase/client";
 
 export type FurnitureFormInput = z.input<typeof ProductSchema>;
 export type FurnitureValues = z.infer<typeof ProductSchema>;
@@ -21,7 +24,8 @@ export default function FurnitureAddForm() {
   const searchParams = useSearchParams();
   const step = Number(searchParams.get("step") ?? 1);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  const [capturedImages, setCapturedImages] = useState<ImageFile[]>([]);
+  const [coverImage, setCoverImage] = useState<string>("");
   const form = useForm<FurnitureFormInput>({
     resolver: zodResolver(ProductSchema),
     defaultValues: {
@@ -53,15 +57,89 @@ export default function FurnitureAddForm() {
     }
 
     const cleanValues = validationResult.data;
+    const successfulUploads: string[] = [];
 
     try {
       setIsSubmitting(true);
 
-      console.log(values);
+      const supabase = await createClient();
 
-      toast.success("Product created successfully");
-    } catch (error) {
-      toast.error("Something went wrong");
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
+      if (userError || !user) {
+        throw new Error("Session not found, please log in again.");
+      }
+
+      const uploadPromises = capturedImages.map(async (imgObj) => {
+        const fileExt = imgObj.file.name.split(".").pop();
+        const fileName = `${crypto.randomUUID()}.${fileExt}`;
+        const filePath = `${fileName}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from("products")
+          .upload(filePath, imgObj.file);
+
+        if (uploadError) {
+          console.error(`Upload failed for ${imgObj.file.name}:`, uploadError);
+          throw new Error(`Failed to upload: ${imgObj.file.name}`);
+        }
+
+        successfulUploads.push(filePath);
+
+        const {
+          data: { publicUrl },
+        } = supabase.storage.from("products").getPublicUrl(filePath);
+        return publicUrl;
+      });
+
+      const uploadedUrls = await Promise.all(uploadPromises);
+
+      // 2. Preview URL'lerini Public URL'lerle eşleştir (Harita oluştur)
+      // 2. Match Preview URLs with Public URLs (Create Map)
+      const previewToPublicMap = capturedImages.reduce(
+        (acc, imgObj, index) => {
+          acc[imgObj.preview] = uploadedUrls[index];
+          return acc;
+        },
+        {} as Record<string, string>,
+      );
+
+      // 3. Kapak fotoğrafını güvenli bir şekilde bul
+      // 3. Securely locate the cover photo
+
+      let finalCoverImageUrl = "";
+      if (coverImage) {
+        // Eğer coverImage bir blob (yeni yüklenen) ise haritadan bul
+        // If coverImage is a blob (newly uploaded), find it on the map.
+        finalCoverImageUrl = previewToPublicMap[coverImage] || coverImage;
+      }
+
+      // 4. Diziyi oluştur (Kapak en başa, diğerleri arkaya)
+      // 4. Create the array (Cover first, others last)
+      const finalImageUrls = [
+        finalCoverImageUrl,
+        ...uploadedUrls.filter((url) => url !== finalCoverImageUrl),
+      ].filter(Boolean); // Boş olanları (null/undefined) temizle // Remove empty (null/undefined) entries
+
+      const result = await addProductAction(cleanValues, finalImageUrls);
+
+      if (!result.success) {
+        throw new Error(result.error);
+      }
+
+      router.push("admin/furnitures?message=ProductCreated");
+    } catch (error: any) {
+      console.error("Submit Error ", error);
+
+      if (successfulUploads.length > 0) {
+        const supabase = await createClient();
+        await supabase.storage.from("products").remove(successfulUploads);
+
+        console.log("Cleanup complete: Orphaned files removed");
+      }
+      toast.error(error.message || "An error occurred.");
     } finally {
       setIsSubmitting(false);
     }
@@ -112,6 +190,14 @@ export default function FurnitureAddForm() {
         <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
           {step === 1 && <StepBasicInfo form={form} />}
           {step === 2 && <StepAttributes form={form} />}
+          {step === 3 && (
+            <StepImages
+              form={form}
+              onImagesChange={setCapturedImages}
+              coverImage={coverImage}
+              onSetCover={setCoverImage}
+            />
+          )}
 
           <div className="flex justify-between pt-6 border-t ">
             <Button
