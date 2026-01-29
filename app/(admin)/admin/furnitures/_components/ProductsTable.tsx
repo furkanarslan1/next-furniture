@@ -25,7 +25,7 @@ export default function ProductsTable({
   products,
   currentCategory,
 }: ProductsTableProps) {
-  const handleDelete = async (id: string, images: string[] | null) => {
+  const handleDelete = async (id: string, images: { url: string }[] | null) => {
     const isConfirmed = confirm(
       "Are you sure? This will delete the product and all its images permanently.",
     );
@@ -35,7 +35,8 @@ export default function ProductsTable({
     const loadingToast = toast.loading("Processing your request..");
 
     try {
-      const result = await deleteProductAction(id, images);
+      const imageUrls = images ? images.map((img) => img.url) : null;
+      const result = await deleteProductAction(id, imageUrls);
 
       toast.dismiss(loadingToast);
 
@@ -148,11 +149,8 @@ export default function ProductsTable({
                     <Button
                       variant="outline"
                       size="icon"
-                      onClick={() => {
-                        const imageUrls = product.images.map((img) => img.url);
-                        handleDelete(product.id, imageUrls);
-                      }}
-                      className="h-8 w-8 text-red-500 hover:text-red-600 hover:bg-red-50"
+                      onClick={() => handleDelete(product.id, product.images)}
+                      className="h-8 w-8 text-red-500 hover:text-red-600"
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>
