@@ -24,20 +24,20 @@ export async function deleteProductAction(
       if (storageError) {
         console.error("Storage delete error:", storageError);
       }
-
-      const { error: dbError } = await supabase
-        .from("products")
-        .delete()
-        .eq("id", id);
-
-      if (dbError) {
-        throw dbError;
-      }
-
-      revalidatePath("/admin/furnitures");
-
-      return { success: true };
     }
+
+    const { error: dbError } = await supabase
+      .from("products")
+      .delete()
+      .eq("id", id);
+
+    if (dbError) {
+      throw dbError;
+    }
+
+    revalidatePath("/admin/furnitures");
+
+    return { success: true };
   } catch (error: any) {
     console.error("Delete Action Error :", error);
     return {
