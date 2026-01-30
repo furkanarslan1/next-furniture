@@ -9,16 +9,11 @@ import { UseFormReturn } from "react-hook-form";
 import { HeroSlideFormInput } from "@/schemas/heroSlideSchema";
 
 interface StepHeroImageProps {
-  form: UseFormReturn<HeroSlideFormInput>;
   value: HeroImage | null;
   onChange: (image: HeroImage | null) => void;
 }
 
-export default function StepHeroImage({
-  form,
-  value,
-  onChange,
-}: StepHeroImageProps) {
+export default function StepHeroImage({ value, onChange }: StepHeroImageProps) {
   const [isCompressing, setIsCompressing] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -48,6 +43,10 @@ export default function StepHeroImage({
         useWebWorker: true,
       });
 
+      if (value?.preview) {
+        URL.revokeObjectURL(value.preview);
+      }
+
       const heroImage: HeroImage = {
         file: compressed,
         preview: URL.createObjectURL(compressed),
@@ -63,8 +62,10 @@ export default function StepHeroImage({
   };
 
   const removeImage = () => {
+    if (value?.preview) {
+      URL.revokeObjectURL(value.preview);
+    }
     onChange(null);
-    form.setValue("image", null, { shouldValidate: true });
   };
 
   return (

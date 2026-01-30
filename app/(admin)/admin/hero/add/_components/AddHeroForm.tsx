@@ -16,6 +16,7 @@ import { toast } from "sonner";
 import StepHeroInfos from "./steps/StepHeroInfos";
 import { Form } from "@/components/ui/form";
 import StepHeroImage from "./steps/StepHeroImage";
+import { addHeroAction } from "@/app/(actions)/hero/addHeroAction";
 
 export default function AddHeroForm() {
   const router = useRouter();
@@ -31,7 +32,6 @@ export default function AddHeroForm() {
       subtitle: "",
       target_url: "",
       is_active: true,
-      image: undefined,
     },
   });
 
@@ -101,13 +101,17 @@ export default function AddHeroForm() {
         image_url: imageUrl,
       };
 
-      const result = await addHeroSliderAction(dataForDB);
+      const result = await addHeroAction(dataForDB);
 
       if (!result.success) {
         throw new Error(result.error);
       }
 
-      router.push("admin/hero?message=HeroCreated");
+      if (capturedImage?.preview) {
+        URL.revokeObjectURL(capturedImage.preview);
+      }
+
+      router.push("/admin/hero?message=HeroCreated");
     } catch (error: any) {
       console.error("Submit Error", error);
 
@@ -125,18 +129,24 @@ export default function AddHeroForm() {
   const handleNext = async () => {
     const stepFields: Record<number, Array<keyof HeroSlideFormInput>> = {
       1: ["title", "subtitle", "target_url", "is_active"],
-      2: ["image"],
+      2: [],
     };
 
     const isValid = await form.trigger(stepFields[step]);
     if (!isValid) return;
-    if (step < 2) {
-      setStep(step + 1);
-    } else {
-      const values = form.getValues();
-      await onSubmit(values);
+
+    if (step === 2) {
+      if (!capturedImage) {
+        toast.error("Please upload an image.");
+        return;
+      }
+      await onSubmit(form.getValues());
+      return;
     }
+
+    setStep(step + 1);
   };
+
   return (
     <div className="space-y-8 max-w-6xl mx-auto p-6 mb-12">
       <div className="flex items-center gap-2 mb-4">
@@ -155,14 +165,9 @@ export default function AddHeroForm() {
           {step === 1 && <StepHeroInfos form={form} />}
           {step === 2 && (
             <StepHeroImage
-              form={form}
               value={capturedImage}
               onChange={(img) => {
                 setCapturedImage(img);
-
-                form.setValue("image", img?.file ?? null, {
-                  shouldValidate: true,
-                });
               }}
             />
           )}

@@ -4,14 +4,10 @@ import { FurnitureFormInput } from "@/app/(admin)/admin/furnitures/add/_componen
 import { rateLimit } from "@/lib/rate-limit";
 import { createClient } from "@/lib/supabase/server";
 import { ProductSchema } from "@/schemas/productSchema";
+import { ActionResponse } from "@/types/ActionResponseType";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import slugify from "slugify";
-
-interface ActionResponse {
-  success: boolean;
-  error?: string;
-}
 
 export async function addProductAction(
   formData: FurnitureFormInput,
