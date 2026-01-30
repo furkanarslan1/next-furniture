@@ -15,6 +15,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import StepHeroInfos from "./steps/StepHeroInfos";
 import { Form } from "@/components/ui/form";
+import StepHeroImage from "./steps/StepHeroImage";
 
 export default function AddHeroForm() {
   const router = useRouter();
@@ -152,15 +153,19 @@ export default function AddHeroForm() {
       <Form {...form}>
         <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
           {step === 1 && <StepHeroInfos form={form} />}
-          {/* {step ===2 && < StepHeroImage form={form} onChange={(img) => {
-      
-      setCapturedImage(img);
+          {step === 2 && (
+            <StepHeroImage
+              form={form}
+              value={capturedImage}
+              onChange={(img) => {
+                setCapturedImage(img);
 
-  
-      form.setValue("image", img.file, {
-        shouldValidate: true,
-      });
-    }}/>} */}
+                form.setValue("image", img?.file ?? null, {
+                  shouldValidate: true,
+                });
+              }}
+            />
+          )}
 
           <div className="flex justify-between pt-6 border-t ">
             <Button
