@@ -55,5 +55,6 @@ export const heroSlideSchema = z.object({
 /**
  * TYPES
  */
-export type HeroSlideFormInput = z.infer<typeof heroSlideFormSchema>;
+export type HeroSlideFormValues = z.infer<typeof heroSlideFormSchema>;
+export type HeroSlideFormInput = z.input<typeof heroSlideFormSchema>;
 export type HeroSlide = z.infer<typeof heroSlideSchema>;
