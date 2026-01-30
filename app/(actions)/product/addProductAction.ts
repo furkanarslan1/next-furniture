@@ -7,6 +7,7 @@ import { ProductSchema } from "@/schemas/productSchema";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import slugify from "slugify";
+
 interface ActionResponse {
   success: boolean;
   error?: string;
