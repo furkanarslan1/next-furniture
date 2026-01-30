@@ -11,8 +11,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useState } from "react";
-import { Form, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import StepHeroInfos from "./steps/StepHeroInfos";
+import { Form } from "@/components/ui/form";
 
 export default function AddHeroForm() {
   const router = useRouter();
@@ -27,7 +29,6 @@ export default function AddHeroForm() {
       title: "",
       subtitle: "",
       target_url: "",
-      order_index: 1,
       is_active: true,
       image: undefined,
     },
@@ -95,7 +96,6 @@ export default function AddHeroForm() {
         title: cleanValue.title,
         subtitle: cleanValue.subtitle || null,
         target_url: cleanValue.target_url || null,
-        order_index: cleanValue.order_index,
         is_active: cleanValue.is_active,
         image_url: imageUrl,
       };
@@ -123,7 +123,7 @@ export default function AddHeroForm() {
 
   const handleNext = async () => {
     const stepFields: Record<number, Array<keyof HeroSlideFormInput>> = {
-      1: ["title", "subtitle", "target_url", "order_index", "is_active"],
+      1: ["title", "subtitle", "target_url", "is_active"],
       2: ["image"],
     };
 
@@ -151,8 +151,16 @@ export default function AddHeroForm() {
 
       <Form {...form}>
         <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
-          {/* {step ===1 && < StepHeroInfos form={form} />}
-            {step ===2 && < StepHeroImage form={form} onImageChange={setCapturedImage} />} */}
+          {step === 1 && <StepHeroInfos form={form} />}
+          {/* {step ===2 && < StepHeroImage form={form} onChange={(img) => {
+      
+      setCapturedImage(img);
+
+  
+      form.setValue("image", img.file, {
+        shouldValidate: true,
+      });
+    }}/>} */}
 
           <div className="flex justify-between pt-6 border-t ">
             <Button
@@ -169,7 +177,7 @@ export default function AddHeroForm() {
                 {isSubmitting && (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 )}
-                <span>{step === 3 ? "Complete and Publish" : "Next Step"}</span>
+                <span>{step === 2 ? "Complete and Publish" : "Next Step"}</span>
               </div>
             </Button>
           </div>

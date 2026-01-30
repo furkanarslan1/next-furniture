@@ -25,14 +25,17 @@ export const heroSlideFormSchema = z.object({
       (file) => ["image/jpeg", "image/png", "image/webp"].includes(file.type),
       "Only JPG, PNG and WEBP images are allowed.",
     ),
+  target_url: z
+    .string()
+    .url("Please enter a valid URL.")
+    .optional()
+    .or(z.literal("")),
 
-  target_url: z.string().url("Please enter a valid URL.").optional(),
-
-  order_index: z.coerce
-    .number()
-    .int("Order index must be an integer.")
-    .min(0, "Order index cannot be negative.")
-    .default(0),
+  //   order_index: z.coerce
+  //     .number()
+  //     .int("Order index must be an integer.")
+  //     .min(0, "Order index cannot be negative.")
+  //     .default(0),
 
   is_active: z.boolean().default(true),
 });
