@@ -21,7 +21,7 @@ export async function updateHeroOrderAction(
 
   try {
     const { data: otherHero, error: findError } = await supabase
-      .from("hero_list")
+      .from("hero_slides")
       .select("id")
       .eq("order_index", newOrder)
       .single();
@@ -32,7 +32,7 @@ export async function updateHeroOrderAction(
 
     if (otherHero) {
       const { error: updateOtherError } = await supabase
-        .from("hero_list")
+        .from("hero_slides")
         .update({ order_index: oldOrder })
         .eq("id", otherHero.id);
 
@@ -40,7 +40,7 @@ export async function updateHeroOrderAction(
     }
 
     const { error: updateCurrentError } = await supabase
-      .from("hero_list")
+      .from("hero_slides")
       .update({ order_index: newOrder })
       .eq("id", heroId);
 

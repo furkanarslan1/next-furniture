@@ -16,7 +16,7 @@ export async function deleteHeroAction(heroId: string) {
     }
 
     const { data: heroData, error: fetchError } = await supabase
-      .from("hero_list")
+      .from("hero_slides")
       .select("image_url")
       .eq("id", heroId)
       .single();
@@ -26,7 +26,7 @@ export async function deleteHeroAction(heroId: string) {
     }
 
     const { error: deleteError } = await supabase
-      .from("hero_list")
+      .from("hero_slides")
       .delete()
       .eq("id", heroId);
 

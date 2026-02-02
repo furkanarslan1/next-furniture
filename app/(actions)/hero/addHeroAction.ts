@@ -43,15 +43,29 @@ export async function addHeroAction(
     return { success: false, error: `Validation failed: ${errorMessage}` };
   }
 
-  const { error: dbError } = await supabase
-    .from("hero_slides")
-    .insert(result.data);
+  try {
+    const { data: maxOrderData } = await supabase
+      .from("hero_slides")
+      .select("order_index")
+      .order("order_index", { ascending: false })
+      .limit(1)
+      .maybeSingle();
 
-  if (dbError) {
-    console.error("Database Insert Error:", dbError);
-    return { success: false, error: dbError.message };
+    const nextOrder = maxOrderData ? maxOrderData.order_index + 1 : 1;
+
+    const { error: dbError } = await supabase
+      .from("hero_slides")
+      .insert({ ...result.data, order_index: nextOrder });
+
+    if (dbError) {
+      console.error("Database Insert Error:", dbError);
+      return { success: false, error: dbError.message };
+    }
+    revalidatePath("/admin/hero");
+
+    return { success: true };
+  } catch (error: any) {
+    console.error("Database Insert Error:", error);
+    return { success: false, error: error.message };
   }
-  revalidatePath("/admin/hero");
-
-  return { success: true };
 }
