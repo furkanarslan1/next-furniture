@@ -1,3 +1,9 @@
+import HomeHeroes from "./_components/HomeHeroes";
+
 export default function Home() {
-  return <div></div>;
+  return (
+    <div>
+      <HomeHeroes />
+    </div>
+  );
 }
