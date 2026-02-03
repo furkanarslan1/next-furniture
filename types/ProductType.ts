@@ -18,3 +18,8 @@ export interface Product {
   }[];
   created_at: string;
 }
+
+export type ProductCardType = Pick<
+  Product,
+  "id" | "title" | "slug" | "price" | "discount_rate" | "images"
+>;

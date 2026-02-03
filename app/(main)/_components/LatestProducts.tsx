@@ -6,11 +6,11 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import { Product } from "@/types/ProductType";
+import { Product, ProductCardType } from "@/types/ProductType";
 import ProductCard from "@/components/product/ProductCard";
 
 interface ProductsProps {
-  latestProducts: Product[];
+  latestProducts: ProductCardType[];
 }
 
 export default function LatestProducts({ latestProducts }: ProductsProps) {

@@ -1,9 +1,9 @@
-import { Product } from "@/types/ProductType";
+import { Product, ProductCardType } from "@/types/ProductType";
 import Image from "next/image";
 import React from "react";
 
 interface Productprops {
-  product: Product;
+  product: ProductCardType;
 }
 
 export default function ProductCard({ product }: Productprops) {
