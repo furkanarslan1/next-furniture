@@ -9,6 +9,7 @@ export async function getDiscountProductsAction() {
     .from("products")
     .select("id, title, slug, price, discount_rate, images")
     .gt("discount_rate", 0)
+    .eq("is_active", true)
     .order("created_at", { ascending: false })
     .limit(10);
 
