@@ -2,7 +2,7 @@
 
 import "swiper/css";
 import "swiper/css/pagination";
-import "swiper/css/navigation"; // Dokunmatik kaydırma kararlılığı için eklendi
+import "swiper/css/navigation";
 
 import { Truck, ShieldCheck, Wrench, PackageCheck, Gift } from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
