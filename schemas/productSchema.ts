@@ -48,7 +48,7 @@ export const ProductSchema = z.object({
   // Form values may come as strings, so we use coerce
   price: z.coerce.number().positive("Price must be greater than 0"),
 
-  discountRate: z.coerce
+  discount_rate: z.coerce
     .number()
     .min(0, "Discount cannot be less than 0")
     .max(100, "Discount cannot be greater than 100%")
@@ -56,9 +56,9 @@ export const ProductSchema = z.object({
     .default(0),
 
   categorySlug: z.string().min(1, "Please select a category"),
-  typeSlug: z.string().min(1, "Please select a subcategory"),
+  type_slug: z.string().min(1, "Please select a subcategory"),
 
-  isActive: z.boolean().default(true),
+  is_active: z.boolean().default(true),
 
   // Dynamic attributes (e.g. Material, Size, etc.)
   attributes: z.array(ProductAttributeSchema).default([]),
@@ -68,7 +68,7 @@ export const ProductSchema = z.object({
     .array(ProductImageSchema)
     .min(1, "You must add at least one product image"),
 
-  createdAt: z.string().optional(),
+  created_at: z.string().optional(),
 });
 
 // --- TypeScript Types ---

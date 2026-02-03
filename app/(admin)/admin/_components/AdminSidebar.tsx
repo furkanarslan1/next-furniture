@@ -88,17 +88,17 @@ export default function AdminSideBar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => {
-                const isActive = pathname === item.url;
+                const is_active = pathname === item.url;
                 return (
                   <SidebarMenuItem key={item.url}>
                     <SidebarMenuButton
                       asChild
-                      isActive={isActive}
+                      is_active={is_active}
                       tooltip={item.title}
                     >
                       <Link href={item.url}>
                         <item.icon
-                          className={isActive ? "text-orange-500" : ""}
+                          className={is_active ? "text-orange-500" : ""}
                         />
                         <span>{item.title}</span>
                       </Link>

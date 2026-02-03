@@ -110,7 +110,7 @@ export default function ProductsTable({
                       {product.category_slug}
                     </Badge>
                     <span className="text-sm text-muted-foreground ml-1">
-                      {product.typeSlug}
+                      {product.type_slug}
                     </span>
                   </div>
                 </TableCell>
@@ -121,9 +121,9 @@ export default function ProductsTable({
                     <span className="font-mono font-bold">
                       ${product.price}
                     </span>
-                    {product.discountRate > 0 && (
+                    {product.discount_rate > 0 && (
                       <span className="text-[10px] font-bold text-green-600">
-                        {product.discountRate}% OFF
+                        {product.discount_rate}% OFF
                       </span>
                     )}
                   </div>
@@ -131,8 +131,10 @@ export default function ProductsTable({
 
                 {/* Status */}
                 <TableCell>
-                  <Badge variant={product.isActive ? "default" : "destructive"}>
-                    {product.isActive ? "Active" : "Draft"}
+                  <Badge
+                    variant={product.is_active ? "default" : "destructive"}
+                  >
+                    {product.is_active ? "Active" : "Draft"}
                   </Badge>
                 </TableCell>
 

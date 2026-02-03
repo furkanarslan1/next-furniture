@@ -34,10 +34,10 @@ export default function FurnitureAddForm() {
       slug: "",
       description: "",
       price: 0,
-      discountRate: 0,
+      discount_rate: 0,
       categorySlug: "",
-      typeSlug: "",
-      isActive: true,
+      type_slug: "",
+      is_active: true,
       attributes: [],
       images: [],
     },
@@ -138,7 +138,7 @@ export default function FurnitureAddForm() {
         throw new Error(result.error);
       }
 
-      router.push("admin/furnitures?message=ProductCreated");
+      router.push("/admin/furnitures?message=ProductCreated");
     } catch (error: any) {
       console.error("Submit Error ", error);
 
@@ -160,10 +160,10 @@ export default function FurnitureAddForm() {
         "title",
         "description",
         "price",
-        "discountRate",
+        "discount_rate",
         "categorySlug",
-        "typeSlug",
-        "isActive",
+        "type_slug",
+        "is_active",
       ],
       2: ["attributes"],
       3: ["images"],

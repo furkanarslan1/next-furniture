@@ -66,10 +66,10 @@ export async function addProductAction(
 
     // SOL TARAF: Veritabanı sütun ismi (snake_case)
     // SAĞ TARAF: Zod/Form verisi (camelCase)
-    discount_rate: result.data.discountRate,
+    discount_rate: result.data.discount_rate,
     category_slug: result.data.categorySlug,
-    type_slug: result.data.typeSlug,
-    is_active: result.data.isActive,
+    type_slug: result.data.type_slug,
+    is_active: result.data.is_active,
 
     attributes: result.data.attributes,
     images: result.data.images,

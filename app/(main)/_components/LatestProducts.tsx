@@ -7,6 +7,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Product } from "@/types/ProductType";
+import ProductCard from "@/components/product/ProductCard";
 
 interface ProductsProps {
   latestProducts: Product[];
@@ -14,7 +15,7 @@ interface ProductsProps {
 
 export default function LatestProducts({ latestProducts }: ProductsProps) {
   return (
-    <div>
+    <div className="max-w-7xl mx-auto">
       <Swiper
         modules={[Autoplay, Pagination]}
         loop={true}
@@ -24,6 +25,16 @@ export default function LatestProducts({ latestProducts }: ProductsProps) {
         }}
         pagination={{ clickable: true, dynamicBullets: true }}
         spaceBetween={16}
+        slidesPerView={1}
+        breakpoints={{
+          768: {
+            slidesPerView: 3,
+          },
+
+          1024: {
+            slidesPerView: 3,
+          },
+        }}
         className="px-8! pb-12! "
       >
         {latestProducts.map((product) => (

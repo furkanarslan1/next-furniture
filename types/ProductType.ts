@@ -4,10 +4,10 @@ export interface Product {
   slug: string;
   description: string;
   price: number;
-  discountRate: number;
+  discount_rate: number;
   category_slug: string;
-  typeSlug: string;
-  isActive: boolean;
+  type_slug: string;
+  is_active: boolean;
   attributes: {
     key: string;
     value: string;
@@ -16,5 +16,5 @@ export interface Product {
     url: string;
     alt?: string;
   }[];
-  createdAt: string;
+  created_at: string;
 }

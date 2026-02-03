@@ -6,7 +6,7 @@ export const SubCategorySchema = z.object({
   category_id: z.string().uuid().optional(),
   slug: z.string().min(2, "Slug must be at least 2 characters"),
   label: z.string().min(2, "Title must be at least 2 characters"),
-  isActive: z.boolean().default(true),
+  is_active: z.boolean().default(true),
 });
 
 // Category

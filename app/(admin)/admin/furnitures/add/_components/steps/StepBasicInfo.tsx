@@ -38,8 +38,8 @@ export default function StepBasicInfo({ form }: StepProps) {
     }
 
     if (prevCategory !== category) {
-      form.setValue("typeSlug", "");
-      form.clearErrors("typeSlug");
+      form.setValue("type_slug", "");
+      form.clearErrors("type_slug");
     }
 
     prevCategoryRef.current = category;
@@ -112,7 +112,7 @@ export default function StepBasicInfo({ form }: StepProps) {
 
       <FormField
         control={form.control}
-        name="typeSlug"
+        name="type_slug"
         render={({ field }) => (
           <FormItem>
             <FormLabel>Type</FormLabel>
@@ -169,7 +169,7 @@ export default function StepBasicInfo({ form }: StepProps) {
 
       <FormField
         control={form.control}
-        name="discountRate"
+        name="discount_rate"
         render={({ field }) => (
           <FormItem>
             <FormLabel>Discount Rate %</FormLabel>
@@ -189,7 +189,7 @@ export default function StepBasicInfo({ form }: StepProps) {
 
       <FormField
         control={form.control}
-        name="isActive"
+        name="is_active"
         render={({ field }) => (
           <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4 w-fit">
             <div className="space-y-0.5">
