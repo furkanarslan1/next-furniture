@@ -4,6 +4,7 @@ import { getLatestProductsAction } from "../(actions)/product/getLatestProductAc
 
 import HomeHeroes from "./_components/HomeHeroes";
 import HomeInfoSlider from "./_components/HomeInfoSlider";
+import HomeCategories from "./_components/HomeCategories";
 
 export default async function Home() {
   const latestProducts = await getLatestProductsAction();
@@ -17,6 +18,7 @@ export default async function Home() {
         sliderId="home-latest-slider"
         title="Latest Products"
       />
+      <HomeCategories />
       <ProductSlider
         products={discountProducts}
         sliderId="home-discount-slider"
