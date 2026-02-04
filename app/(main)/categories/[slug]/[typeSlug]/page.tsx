@@ -9,6 +9,8 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import ProductSlider from "@/components/product/ProductSlider";
+import { formatSlug } from "@/utils/string";
 
 interface TypeSlugProps {
   params: Promise<{
@@ -47,7 +49,13 @@ export default async function TypeSlugPage({ params }: TypeSlugProps) {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-
+        <div>
+          <ProductSlider
+            products={products}
+            sliderId="subCat-latest-slider"
+            title={`${formatSlug(typeSlug)} `}
+          />
+        </div>
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4">
           {products.length > 0 ? (
             products.map((product) => (

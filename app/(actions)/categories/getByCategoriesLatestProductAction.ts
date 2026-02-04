@@ -11,6 +11,7 @@ export async function getLatestProductsByCategory(
   const { data, error } = await supabase
     .from("products")
     .select("id, title, slug, price, discount_rate, images")
+    .eq("category_slug", slug)
     .eq("is_active", true)
     .order("created_at", { ascending: false })
     .limit(10);
