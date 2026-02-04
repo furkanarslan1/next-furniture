@@ -12,6 +12,7 @@ import {
 import ProductSlider from "@/components/product/ProductSlider";
 import { formatSlug } from "@/utils/string";
 import Pagination from "@/components/Pagination";
+import { getBySubCategoryLatestProducts } from "@/app/(actions)/categories/getBySubCategoryLatestProduct";
 
 interface TypeSlugProps {
   params: Promise<{
@@ -34,6 +35,8 @@ export default async function TypeSlugPage({
 
   const { products, totalCount, totalPages } =
     await getBySubCategoryProductAction(typeSlug, currentPage, limit);
+
+  const latestSubProducts = await getBySubCategoryLatestProducts(typeSlug);
 
   return (
     <div>
@@ -62,7 +65,7 @@ export default async function TypeSlugPage({
         </Breadcrumb>
         <div>
           <ProductSlider
-            products={products}
+            products={latestSubProducts}
             sliderId="subCat-latest-slider"
             title={`${formatSlug(typeSlug)} `}
           />
