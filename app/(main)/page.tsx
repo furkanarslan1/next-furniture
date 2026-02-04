@@ -5,6 +5,7 @@ import { getLatestProductsAction } from "../(actions)/product/getLatestProductAc
 import HomeHeroes from "./_components/HomeHeroes";
 import HomeInfoSlider from "./_components/HomeInfoSlider";
 import HomeCategories from "./_components/HomeCategories";
+import HomeVideoHero from "./_components/HomeVideoHero";
 
 export default async function Home() {
   const latestProducts = await getLatestProductsAction();
@@ -12,18 +13,22 @@ export default async function Home() {
   return (
     <div>
       <HomeHeroes />
-      <HomeInfoSlider />
-      <ProductSlider
-        products={latestProducts}
-        sliderId="home-latest-slider"
-        title="Latest Products"
-      />
-      <HomeCategories />
-      <ProductSlider
-        products={discountProducts}
-        sliderId="home-discount-slider"
-        title="Discount Products"
-      />
+
+      <div className="max-w-7xl mx-auto p-2">
+        <HomeInfoSlider />
+        <ProductSlider
+          products={latestProducts}
+          sliderId="home-latest-slider"
+          title="Latest Products"
+        />
+        <HomeVideoHero />
+        <HomeCategories />
+        <ProductSlider
+          products={discountProducts}
+          sliderId="home-discount-slider"
+          title="Discount Products"
+        />
+      </div>
     </div>
   );
 }
