@@ -23,12 +23,15 @@ export default function () {
       <div>
         <div className="h-16 text-gray-600   text-md font-semi-bold flex items-center justify-between">
           {/* BRAND */}
-          <div className="flex items-center gap-1 text-2xl bg-amber-300 p-2 rounded-md">
+          <Link
+            href="/"
+            className="flex items-center gap-1 text-2xl bg-amber-300 p-2 rounded-md"
+          >
             <span className="font-extrabold bg-gray-700 text-white px-4 rounded-r-2xl ">
               Next{" "}
             </span>
             Furniture
-          </div>
+          </Link>
           {/* LINKS */}
           <nav className="hidden md:block">
             <ul className="flex gap-6 text-gray-800">

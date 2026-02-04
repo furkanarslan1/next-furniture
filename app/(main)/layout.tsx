@@ -1,3 +1,4 @@
+import Footer from "@/components/footer/Footer";
 import Header from "@/components/header/Header";
 
 export default async function MainLayout({
@@ -43,7 +44,9 @@ export default async function MainLayout({
       <main id="main-content" className="min-h-screen ">
         {children}
       </main>
-      <footer role="contentinfo"></footer>
+      <footer role="contentinfo">
+        <Footer />
+      </footer>
     </>
   );
 }
