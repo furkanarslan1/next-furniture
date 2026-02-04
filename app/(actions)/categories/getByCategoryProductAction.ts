@@ -1,13 +1,8 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { PaginatedResult } from "@/types/PaginatedResult";
 import { ProductCardType } from "@/types/ProductType";
-
-interface PaginatedResult {
-  products: ProductCardType[];
-  totalCount: number;
-  totalPages: number;
-}
 
 export async function getByCategoryProductAction(
   slug: string,

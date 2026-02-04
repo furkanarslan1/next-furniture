@@ -11,18 +11,29 @@ import {
 } from "@/components/ui/breadcrumb";
 import ProductSlider from "@/components/product/ProductSlider";
 import { formatSlug } from "@/utils/string";
+import Pagination from "@/components/Pagination";
 
 interface TypeSlugProps {
   params: Promise<{
     slug: string;
     typeSlug: string;
   }>;
+  searchParams: Promise<{
+    page?: string;
+  }>;
 }
 
-export default async function TypeSlugPage({ params }: TypeSlugProps) {
+export default async function TypeSlugPage({
+  params,
+  searchParams,
+}: TypeSlugProps) {
   const { typeSlug, slug } = await params;
+  const { page } = await searchParams;
+  const currentPage = Number(page) || 1;
+  const limit = 2;
 
-  const products = await getBySubCategoryProductAction(typeSlug);
+  const { products, totalCount, totalPages } =
+    await getBySubCategoryProductAction(typeSlug, currentPage, limit);
 
   return (
     <div>
@@ -65,6 +76,12 @@ export default async function TypeSlugPage({ params }: TypeSlugProps) {
             <p className="text-muted-foreground">No products found.</p>
           )}
         </div>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          totalCount={totalCount}
+          baseUrl={`/categories/${slug}/${typeSlug}`}
+        />
       </div>
     </div>
   );
