@@ -3,22 +3,37 @@
 import { createClient } from "@/lib/supabase/server";
 import { ProductCardType } from "@/types/ProductType";
 
+interface PaginatedResult {
+  products: ProductCardType[];
+  totalCount: number;
+  totalPages: number;
+}
+
 export async function getByCategoryProductAction(
   slug: string,
-): Promise<ProductCardType[]> {
+  page: number = 1,
+  limit: number = 12,
+): Promise<PaginatedResult> {
   const supabase = await createClient();
 
-  const { data, error } = await supabase
+  const from = (page - 1) * limit;
+  const to = from + limit - 1;
+
+  const { data, error, count } = await supabase
     .from("products")
-    .select("id, title, slug, price, discount_rate, images")
+    .select("id, title, slug, price, discount_rate, images", { count: "exact" })
     .eq("category_slug", slug)
     .eq("is_active", true)
-    .order("created_at", { ascending: false });
+    .order("created_at", { ascending: false })
+    .range(from, to);
 
   if (error) {
     console.error("Error fetching latest products:", error);
-    return [];
+    return { products: [], totalCount: 0, totalPages: 0 };
   }
 
-  return data ?? [];
+  const totalCount = count ?? 0;
+  const totalPages = Math.ceil(totalCount / limit);
+
+  return { products: data ?? [], totalCount, totalPages };
 }
