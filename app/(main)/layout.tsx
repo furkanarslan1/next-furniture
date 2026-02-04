@@ -1,3 +1,5 @@
+import Header from "@/components/header/Header";
+
 export default async function MainLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -35,10 +37,9 @@ export default async function MainLayout({
       >
         Skip to content
       </a>
-      <header
-        role="banner"
-        className="absolute top-0 left-0 w-full z-30"
-      ></header>
+      <header role="banner" className="">
+        <Header />
+      </header>
       <main id="main-content" className="min-h-screen ">
         {children}
       </main>

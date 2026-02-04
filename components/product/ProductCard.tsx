@@ -12,8 +12,6 @@ export default function ProductCard({ product }: Productprops) {
     ? product.price * (1 - product.discount_rate / 100)
     : product.price;
 
-  console.log("product:", product);
-  console.log("discount_rate:", product.discount_rate);
   return (
     <div className="space-y-2">
       <div className="relative w-full h-40">
