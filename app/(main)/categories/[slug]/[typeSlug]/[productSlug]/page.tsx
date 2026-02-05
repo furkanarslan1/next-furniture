@@ -1,4 +1,5 @@
 import { getProductDetail } from "@/app/(actions)/product/getProductDetail";
+import ProductAttirubutes from "@/components/product/ProductAttributes";
 import ProductGallery from "@/components/product/ProductGallery";
 import ProductInformations from "@/components/product/ProductInformations";
 import {
@@ -65,7 +66,10 @@ export default async function ProductDetailPage({ params }: ProductDetaiProps) {
           <ProductInformations product={product} />
         </div>
       </div>
-      <div>{/* SIMILAR PRODUCTS */}</div>
+      <div>
+        <ProductAttirubutes attributes={product.attributes} />
+        {/* SIMILAR PRODUCTS */}
+      </div>
     </div>
   );
 }
