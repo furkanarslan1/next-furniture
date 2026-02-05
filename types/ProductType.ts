@@ -21,5 +21,12 @@ export interface Product {
 
 export type ProductCardType = Pick<
   Product,
-  "id" | "title" | "slug" | "price" | "discount_rate" | "images"
+  | "id"
+  | "title"
+  | "slug"
+  | "price"
+  | "discount_rate"
+  | "images"
+  | "category_slug"
+  | "type_slug"
 >;

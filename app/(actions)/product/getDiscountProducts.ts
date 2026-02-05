@@ -7,7 +7,7 @@ export async function getDiscountProductsAction() {
 
   const { data, error } = await supabase
     .from("products")
-    .select("id, title, slug, price, discount_rate, images")
+    .select("id, title, slug, price, discount_rate, images, category_slug, type_slug")
     .gt("discount_rate", 0)
     .eq("is_active", true)
     .order("created_at", { ascending: false })

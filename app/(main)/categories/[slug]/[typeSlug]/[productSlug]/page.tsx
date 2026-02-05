@@ -1,0 +1,54 @@
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import { formatSlug } from "@/utils/string";
+
+interface ProductDetaiProps {
+  params: Promise<{
+    slug: string;
+    typeSlug: string;
+    productSlug: string;
+  }>;
+}
+
+export default async function ProductDetailPage({ params }: ProductDetaiProps) {
+  const { slug, typeSlug, productSlug } = await params;
+  return (
+    <div className="max-w-7xl mx-auto">
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/">Home</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink href={`/categories/${slug}`}>
+              {formatSlug(slug)}
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>{formatSlug(typeSlug)}</BreadcrumbPage>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>{formatSlug(productSlug)}</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+      <div>
+        {/* PRODUCT IMAGES */}
+        <div></div>
+
+        {/* PRODUCT DETAIL */}
+        <div></div>
+      </div>
+      <div>{/* SIMILAR PRODUCTS */}</div>
+    </div>
+  );
+}

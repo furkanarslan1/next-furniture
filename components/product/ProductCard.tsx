@@ -1,5 +1,6 @@
 import { Product, ProductCardType } from "@/types/ProductType";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 interface Productprops {
@@ -13,7 +14,10 @@ export default function ProductCard({ product }: Productprops) {
     : product.price;
 
   return (
-    <div className="space-y-2">
+    <Link
+      href={`/categories/${product.category_slug}/${product.type_slug}/${product.slug}`}
+      className="space-y-2"
+    >
       <div className="relative w-full h-40">
         <Image
           src={product.images?.[0]?.url || "/product.webp"}
@@ -46,6 +50,6 @@ export default function ProductCard({ product }: Productprops) {
           )}
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

@@ -10,7 +10,7 @@ export async function getBySubCategoryLatestProducts(
 
   const { data, error } = await supabase
     .from("products")
-    .select("id, title, slug, price, discount_rate, images")
+    .select("id, title, slug, price, discount_rate, images, category_slug, type_slug")
     .eq("is_active", true)
     .eq("type_slug", typeSlug)
     .order("created_at", { ascending: false })

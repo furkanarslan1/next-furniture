@@ -42,7 +42,7 @@ export default async function TypeSlugPage({
     <div>
       <div className="max-w-7xl mx-auto space-y-4">
         <h1 className="font-semibold text-gray-600 text-xl">
-          {typeSlug.split("-").join(" ").toUpperCase()}
+          {formatSlug(typeSlug)}
         </h1>
         <Breadcrumb>
           <BreadcrumbList>

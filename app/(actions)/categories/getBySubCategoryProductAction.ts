@@ -15,7 +15,7 @@ export async function getBySubCategoryProductAction(
 
   const { data, error, count } = await supabase
     .from("products")
-    .select("id, title, slug, price, discount_rate, images", { count: "exact" })
+    .select("id, title, slug, price, discount_rate, images, category_slug, type_slug", { count: "exact" })
     .eq("is_active", true)
     .eq("type_slug", typeSlug)
     .order("created_at", { ascending: false })
