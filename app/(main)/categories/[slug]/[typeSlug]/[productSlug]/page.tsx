@@ -1,5 +1,6 @@
 import { getProductDetail } from "@/app/(actions)/product/getProductDetail";
 import ProductGallery from "@/components/product/ProductGallery";
+import ProductInformations from "@/components/product/ProductInformations";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -26,7 +27,7 @@ export default async function ProductDetailPage({ params }: ProductDetaiProps) {
     notFound();
   }
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="max-w-7xl mx-auto overflow-hidden space-y-4 p-4">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -40,7 +41,11 @@ export default async function ProductDetailPage({ params }: ProductDetaiProps) {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>{formatSlug(typeSlug)}</BreadcrumbPage>
+            <BreadcrumbPage>
+              <BreadcrumbLink href={`/categories/${slug}/${typeSlug}`}>
+                {formatSlug(typeSlug)}
+              </BreadcrumbLink>
+            </BreadcrumbPage>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
@@ -48,14 +53,17 @@ export default async function ProductDetailPage({ params }: ProductDetaiProps) {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <div>
+      <div className="flex flex-col md:flex-row md:items-start gap-4">
         {/* PRODUCT IMAGES */}
-        <div>
+        <div className="w-full md:w-3/5">
           <ProductGallery images={product.images} title={product.title} />
         </div>
 
         {/* PRODUCT DETAIL */}
-        <div></div>
+
+        <div className="w-full md:w-1/2 md:sticky md:top-4">
+          <ProductInformations product={product} />
+        </div>
       </div>
       <div>{/* SIMILAR PRODUCTS */}</div>
     </div>
