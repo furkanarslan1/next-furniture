@@ -2,6 +2,7 @@ import { getProductDetail } from "@/app/(actions)/product/getProductDetail";
 import ProductAttirubutes from "@/components/product/ProductAttributes";
 import ProductGallery from "@/components/product/ProductGallery";
 import ProductInformations from "@/components/product/ProductInformations";
+import SimilarProducts from "@/components/product/SimilarProducts";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -66,9 +67,11 @@ export default async function ProductDetailPage({ params }: ProductDetaiProps) {
           <ProductInformations product={product} />
         </div>
       </div>
-      <div>
+      <div className="space-y-6">
+        {/*PRODUCTS ATTIRBUTES*/}
         <ProductAttirubutes attributes={product.attributes} />
         {/* SIMILAR PRODUCTS */}
+        <SimilarProducts category={slug} />
       </div>
     </div>
   );
