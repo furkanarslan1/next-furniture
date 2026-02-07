@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { getLatestProductsByCategory } from "@/app/(actions)/categories/getByCategoriesLatestProductAction";
 import { getByCategoryProductAction } from "@/app/(actions)/categories/getByCategoryProductAction";
 import Pagination from "@/components/Pagination";
@@ -17,6 +18,28 @@ interface CategoryDetailProps {
     page?: string;
   }>;
 }
+
+export async function generateMetadata({
+  params,
+}: CategoryDetailProps): Promise<Metadata> {
+  const { slug } = await params;
+  const categoryName = formatSlug(slug);
+  const category = CATEGORIES[slug];
+
+  return {
+    title: categoryName,
+    description: `Explore the best ${categoryName.toLowerCase()} furniture. ${category?.types?.length || 0} subcategories and hundreds of quality products to choose from.`,
+    alternates: {
+      canonical: `/categories/${slug}`,
+    },
+    openGraph: {
+      title: `${categoryName} | Next Furniture`,
+      description: `Shop modern ${categoryName.toLowerCase()} furniture collection`,
+      images: [`/categories/${slug}.webp`],
+    },
+  };
+}
+
 export default async function CategoryDetailPage({
   params,
   searchParams,

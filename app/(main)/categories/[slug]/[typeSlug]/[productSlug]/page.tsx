@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { getProductDetail } from "@/app/(actions)/product/getProductDetail";
 import ProductAttirubutes from "@/components/product/ProductAttributes";
 import ProductGallery from "@/components/product/ProductGallery";
@@ -14,7 +15,7 @@ import {
 import { formatSlug } from "@/utils/string";
 import { notFound } from "next/navigation";
 
-interface ProductDetaiProps {
+interface ProductDetailProps {
   params: Promise<{
     slug: string;
     typeSlug: string;
@@ -22,7 +23,53 @@ interface ProductDetaiProps {
   }>;
 }
 
-export default async function ProductDetailPage({ params }: ProductDetaiProps) {
+export async function generateMetadata({
+  params,
+}: ProductDetailProps): Promise<Metadata> {
+  const { slug, typeSlug, productSlug } = await params;
+  const product = await getProductDetail(productSlug);
+
+  if (!product) {
+    return {
+      title: "Product Not Found",
+    };
+  }
+
+  const categoryName = formatSlug(slug);
+  const description =
+    product.description?.slice(0, 160) ||
+    `${product.title} - Quality ${categoryName.toLowerCase()} furniture at Next Furniture.`;
+
+  return {
+    title: product.title,
+    description,
+    alternates: {
+      canonical: `/categories/${slug}/${typeSlug}/${productSlug}`,
+    },
+    openGraph: {
+      title: product.title,
+      description,
+      type: "website",
+      images:
+        product.images?.map((img) => ({
+          url: img.url,
+          width: 800,
+          height: 600,
+          alt: product.title,
+        })) || [],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: product.title,
+      description,
+      images: product.images?.[0]?.url ? [product.images[0].url] : [],
+    },
+  };
+}
+
+export default async function ProductDetailPage({
+  params,
+}: ProductDetailProps) {
   const { slug, typeSlug, productSlug } = await params;
   const product = await getProductDetail(productSlug);
   if (!product) {

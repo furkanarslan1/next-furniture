@@ -6,6 +6,16 @@ import HomeHeroes from "./_components/HomeHeroes";
 import HomeInfoSlider from "./_components/HomeInfoSlider";
 import HomeCategories from "./_components/HomeCategories";
 import HomeVideoHero from "./_components/HomeVideoHero";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Home",
+  description:
+    "Renovate your home with modern and stylish furniture. The latest products, discounted offers and a wide selection of categories.",
+  alternates: {
+    canonical: "/",
+  },
+};
 
 export default async function Home() {
   const latestProducts = await getLatestProductsAction();

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { getBySubCategoryProductAction } from "@/app/(actions)/categories/getBySubCategoryProductAction";
 import ProductCard from "@/components/product/ProductCard";
 import React from "react";
@@ -22,6 +23,26 @@ interface TypeSlugProps {
   searchParams: Promise<{
     page?: string;
   }>;
+}
+
+export async function generateMetadata({
+  params,
+}: TypeSlugProps): Promise<Metadata> {
+  const { slug, typeSlug } = await params;
+  const typeName = formatSlug(typeSlug);
+  const categoryName = formatSlug(slug);
+
+  return {
+    title: `${typeName} - ${categoryName}`,
+    description: `Browse ${typeName.toLowerCase()} in our ${categoryName.toLowerCase()} collection. Quality furniture at affordable prices.`,
+    alternates: {
+      canonical: `/categories/${slug}/${typeSlug}`,
+    },
+    openGraph: {
+      title: `${typeName} | Next Furniture`,
+      description: `${typeName} - ${categoryName} furniture collection`,
+    },
+  };
 }
 
 export default async function TypeSlugPage({
