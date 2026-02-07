@@ -20,6 +20,15 @@ import { addProductAction } from "@/app/(actions)/product/addProductAction";
 export type FurnitureFormInput = z.input<typeof ProductSchema>;
 export type FurnitureValues = z.infer<typeof ProductSchema>;
 
+// Default attributes for furniture products
+export const DEFAULT_ATTRIBUTES = [
+  { key: "Material", value: "" },
+  { key: "Dimensions", value: "" },
+  { key: "Color", value: "" },
+  { key: "Weight", value: "" },
+  { key: "Warranty", value: "" },
+];
+
 export default function FurnitureAddForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -38,7 +47,7 @@ export default function FurnitureAddForm() {
       categorySlug: "",
       type_slug: "",
       is_active: true,
-      attributes: [],
+      attributes: DEFAULT_ATTRIBUTES,
       images: [],
     },
   });
