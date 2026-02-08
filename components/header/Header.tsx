@@ -13,15 +13,16 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Menu, MenuSquareIcon } from "lucide-react";
+import { Menu } from "lucide-react";
+import Searchbar from "../searchbar/Searchbar";
 
 export default function () {
   const pathname = usePathname();
 
   return (
-    <header className=" w-full bg-gray-300  px-6  py-1 flex md:block items-center justify-between">
+    <header className=" w-full bg-gray-300   flex md:block items-center justify-between">
       <div>
-        <div className="h-16 text-gray-600   text-md font-semi-bold flex items-center justify-between">
+        <div className="h-16 text-gray-600  px-4 text-md font-semi-bold flex items-center justify-between">
           {/* BRAND */}
           <Link
             href="/"
@@ -32,10 +33,12 @@ export default function () {
             </span>
             Furniture
           </Link>
+          {/* SEARCHBAR */}
+          <Searchbar />
           {/* LINKS */}
           <nav className="hidden md:block">
             <ul className="flex gap-6 text-gray-800">
-              {headerLinks.map((link) => {
+              {/* {headerLinks.map((link) => {
                 const Icon = link.icon;
                 return (
                   <li key={link.href}>
@@ -52,14 +55,45 @@ export default function () {
                     </Link>
                   </li>
                 );
+              })} */}
+
+              {headerLinks.map((link) => {
+                const Icon = link.icon;
+                const isActive = pathname === link.href;
+
+                return (
+                  <li key={link.href} className="list-none">
+                    <Link
+                      href={link.href}
+                      className={cn(
+                        "relative group flex items-center gap-2 py-1 transition-colors hover:text-black",
+                        isActive ? "text-gray-900 font-bold" : "text-gray-600",
+                      )}
+                    >
+                      <Icon size={18} />
+                      <span>{link.label}</span>
+
+                      {/* Hover Çizgi Efekti */}
+                      <span
+                        className={cn(
+                          "absolute left-1/2 bottom-0 h-0.5 bg-black transition-all duration-500",
+
+                          isActive
+                            ? "w-full left-0"
+                            : "w-0 group-hover:w-full group-hover:left-0",
+                        )}
+                      />
+                    </Link>
+                  </li>
+                );
               })}
             </ul>
           </nav>
         </div>
       </div>
       {/* SUBNAV */}
-      <div className="hidden md:flex items-center justify-around overflow-hidden text-gray-600">
-        {CATEGORIES_ARRAY.map((cat) => (
+      <div className="hidden md:flex items-center justify-between py-2 px-4 overflow-hidden  bg-gray-700">
+        {/* {CATEGORIES_ARRAY.map((cat) => (
           <Link
             className={cn(
               "flex items-center gap-2 transition-colors hover:text-black",
@@ -71,7 +105,32 @@ export default function () {
           >
             {cat.label}
           </Link>
-        ))}
+        ))} */}
+        {CATEGORIES_ARRAY.map((cat) => {
+          const isActive = pathname.startsWith(`/categories/${cat.slug}`);
+
+          return (
+            <Link
+              key={cat.label}
+              href={`/categories/${cat.slug}`}
+              className={cn(
+                "relative group flex items-center gap-2 py-1 transition-colors ",
+                isActive ? "text-white font-bold" : "text-gray-300",
+              )}
+            >
+              {cat.label}
+
+              <span
+                className={cn(
+                  "absolute left-1/2 bottom-0 h-0.5 bg-white transition-all duration-500",
+                  isActive
+                    ? "w-full left-0"
+                    : "w-0 group-hover:w-full group-hover:left-0",
+                )}
+              />
+            </Link>
+          );
+        })}
       </div>
 
       {/* MOBILE NAV */}
