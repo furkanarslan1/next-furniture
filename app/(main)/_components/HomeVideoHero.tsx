@@ -51,16 +51,25 @@ export default function HomeVideoHero({
 
     const playVideo = async () => {
       try {
+        video.muted = true;
         await video.play();
-      } catch (error) {
-        console.log("Autoplay prevented:", error);
+      } catch {
+        setHasError(true);
       }
     };
 
     if (video.readyState >= 3) {
+      setIsVideoLoaded(true);
       playVideo();
+    } else {
+      const handleCanPlay = () => {
+        setIsVideoLoaded(true);
+        playVideo();
+      };
+      video.addEventListener("canplay", handleCanPlay);
+      return () => video.removeEventListener("canplay", handleCanPlay);
     }
-  }, [isVideoLoaded, prefersReducedMotion]);
+  }, [prefersReducedMotion]);
 
   const scrollToContent = () => {
     window.scrollTo({
@@ -86,7 +95,7 @@ export default function HomeVideoHero({
           muted
           loop
           playsInline
-          preload="metadata"
+          preload="auto"
           poster={posterSrc}
           onLoadedData={() => setIsVideoLoaded(true)}
           onError={() => setHasError(true)}

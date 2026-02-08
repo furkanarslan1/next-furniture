@@ -61,7 +61,11 @@ export default function Searchbar() {
       const { data, error: fetchError } = await supabase
         .from("products")
         .select("id,title,price,slug,images")
-        .textSearch("fts_vector", query, { config: "turkish", type: "plain" })
+        // .textSearch("fts_vector", `'${query}':*`, {
+        //   config: "english",
+        //   type: "plain",
+        // }) it is better for big databases
+        .ilike("title", `%${query}%`) // it is good for smal datebases
         .eq("is_active", true)
         .limit(6)
         .abortSignal(abortController.signal);
