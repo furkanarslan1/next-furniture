@@ -58,10 +58,10 @@ export default function OurStorePage() {
               <div>
                 <p className="font-medium">Phone</p>
                 <a
-                  href="tel:+902121234567"
+                  href="tel:+90212000000"
                   className="text-sm text-muted-foreground hover:underline"
                 >
-                  +90 (212) 123 45 67
+                  +90 (212) 000 00 0000
                 </a>
               </div>
             </div>
