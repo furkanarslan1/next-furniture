@@ -51,6 +51,16 @@ const items = [
     url: "/admin/furnitures/add",
     icon: PlusCircle,
   },
+  {
+    title: "Heroes",
+    url: "/admin/hero",
+    icon: PlusCircle,
+  },
+  {
+    title: "Add Furniture",
+    url: "/admin/hero/add",
+    icon: PlusCircle,
+  },
   //   {
   //     title: "Users",
   //     url: "/admin/users",
